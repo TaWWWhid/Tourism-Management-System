@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - Tourism Management System</title>
+    
+    <style>
+       /* Reset and base styles */
+/* Reset and base styles */
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background:linear-gradient(135deg, #b0bcdb 0%, #f5f7ff 100%);
+    min-height: 100vh;
+}
+
+/* Navigation styles */
+nav {
+    background-color: #ffffff;
+    padding: 1rem 5%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav h4 {
+    color: #2563eb;
+    font-size: 1.5rem;
+}
+
+nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #1f2937;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+}
+
+nav a:hover {
+    color: #2563eb;
+}
+
+
+
+nav ul li:last-child a:hover {
+    background-color: rgba(37, 99, 235, 0.15);
+    border-color: rgba(37, 99, 235, 0.3);
+    transform: translateY(-2px);
+}
+nav a:hover {
+    color: #2563eb;
+    background-color: #f3f4f6;
+    transform: translateX(5px);
+}
+
+/* Main content styles */
+/* Main container */
+/* Main container */
+/* Main container */
+main {
+    padding: 2rem 5%;
+}
+
+/* Offers section */
+.offers {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.offers h1 {
+    font-size: 2.5rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.offers p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+/* Cards container */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Card styles */
+.card {
+    background: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column; /* Ensure the price is at the bottom */
+    justify-content: flex-end; /* Bottom-right alignment */
+    height: 400px; /* Increased height */
+    width: calc(100% - 2.5rem); /* Slight reduction in width */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+}
+
+.card h3 {
+    padding: 1rem;
+    color: #1f2937;
+    font-size: 1.25rem;
+}
+
+.card .img {
+    width: 100%;
+    height: 300px; /* Adjusted image height */
+    overflow: hidden;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.card:hover img {
+    transform: scale(1.5);
+}
+
+.card .cont {
+    padding: 1.5rem;
+}
+
+.card .place {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 0.5rem;
+}
+
+/* Price at bottom-right */
+.card .price {
+    color: white;
+    background-color: blueviolet;
+    border-radius: 50%;
+    font-size: 12px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s linear;
+    width: 80px;  /* Maintain circular shape */
+    height: 60px; /* Maintain circular shape */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute; /* Positioned relative to card */
+    right: 0;  
+    bottom: 0;  /* Position at bottom-right corner */
+}
+.day {
+    font-size: inherit;   /* Ensures it takes the default text size */
+    color: inherit;      /* Ensures default text color */
+}
+.card .price::before {
+    content: 'Hover';
+    position: absolute;
+    right: -80px; /* Positioned slightly left of the circle */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1f2937;
+    font-size: 14px;
+    opacity: 0;
+    transition: 0.3s linear;
+}
+
+.card .price:hover::before {
+    opacity: 1;
+    right: -90px; /* Shift slightly further left on hover for animation */
+    transform: rotate(90deg); /* Rotate only the content */
+}
+
+.card .price:hover {
+    transform: rotate(360deg); /* Rotate the entire element */
+}
+
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .offers h1 {
+        font-size: 2rem;
+    }
+
+    .cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+/* Animation for card loading */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            text-align: left;
+            overflow-y: auto; /* Enable scroll inside modal */
+            max-height: 80vh; /* Set a max height for scroll */
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+        }
+
+        .modal-content .close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .modal-content .close:hover {
+            color: red;
+        }
+
+        .modal-content .booking-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .modal-content .booking-form input,
+        .modal-content .booking-form select,
+        .modal-content .booking-form button {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .modal-content .booking-form button {
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+        }
+
+        .modal-content .booking-form button:hover {
+            background-color: #218838;
+        }
+
+        /* Confirmation Modal styles */
+        #confirmation-modal .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        #confirmation-modal .modal-content h3 {
+            margin-top: 0;
+            color: #28a745;
+            font-size: 1.5rem;
+        }
+
+        #confirmation-modal .modal-content p {
+            margin: 10px 0;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        #confirmation-modal .close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #555;
+        }
+
+        #confirmation-modal .close:hover {
+            color: red;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <script>
+        window.addEventListener('load', function() {
+            fetch('auth_check.php')
+                .then(response => response.text())
+                .then(data => {
+                    if (data === "not_authenticated") {
+                        window.location.href = 'register.html';
+                    }
+                });
+        });
+        </script>
+        <nav>
+            <h4>AdventureVista</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="community.html">Destination</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="offers">
+            <h1>Best Tour Package Offers for You</h1>
+            <p>Choose your next destination</p>
+            <div class="cards-container">
+                <div class="card">
+                    <h3 class="Dest">Sylhet</h3>
+                    <div class="img">
+                        <img src="../images/bd1.jpg" alt="Sylhet">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Jaflong</div>
+                        <div class="price">5 days <br> 3000/-</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="Dest">Rangamati</h3>
+                    <div class="img">
+                        <img src="../images/sajek.jpg" alt="Dhaka">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Sajek valley</div>
+                        <div class="price">3 days <br> 3000/-</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="Dest">Cox's Bazar</h3>
+                    <div class="img">
+                        <img src="../images/cox's.jpg" alt="Cox's Bazar">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Sea beach</div>
+                        <div class="price">5 days <br> 7000/-</div>
+                    </div>
+                </div>
+
+                <!-- Add more cards to test the layout -->
+                <div class="card">
+                    <h3 class="Dest">Bagerhath</h3>
+                    <div class="img">
+                        <img src="../images/sanb.jpg" alt="Chittagong">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Sundarbans</div>
+                        <div class="price">3 days <br> 2000/-</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="Dest">Sylhet</h3>
+                    <div class="img">
+                        <img src="../images/Sreemangaltour.jpg" alt="Rajshahi">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Sree mangal </div>
+                        <div class="price">3 days <br> 1800/-</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="Dest">St. Martin</h3>
+                    <div class="img">
+                        <img src="../images/st.jpg" alt="Rajshahi">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit St. martin</div>
+                        <div class="price">3 days <br> 3500/-</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="Dest">Maheshkhali Island</h3>
+                    <div class="img">
+                        <img src="../images/Mahesh.jpg" alt="Rajshahi">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Maheshkhali Island</div>
+                        <div class="price">2 days <br> 1200/-</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="Dest">Switzerland</h3>
+                    <div class="img">
+                        <img src="../images/Swit.jpg" alt="Rajshahi">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Interlaken</div>
+                        <div class="price">21 days <br> 3,35000/-</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="Dest">France</h3>
+                    <div class="img">
+                        <img src="../images/FE.jpg" alt="Rajshahi">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Eiffel Tower</div>
+                        <div class="price">12 days <br>2,10000/-</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="Dest">Turkey</h3>
+                    <div class="img">
+                        <img src="../images/Turk.jpg" alt="Rajshahi">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Istanbool</div>
+                        <div class="price">15 days <br> 1,35000/-</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="Dest">Maldives</h3>
+                    <div class="img">
+                        <img src="../images/Maldips.jpg" alt="Rajshahi">
+                    </div>
+                    <div class="cont">
+                        <div class="place">Visit Lhaviyani Atoll</div>
+                        <div class="price">7 days <br> 70000/-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Booking Modal -->
+    <div class="modal" id="booking-modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <form class="booking-form" action="book_trip.php" method="POST">
+                <label for="full_name">Full Name:</label>
+                <input type="text" id="full_name" name="full_name" required>
+
+                <label for="contact_phone">Contact Phone:</label>
+                <input type="text" id="contact_phone" name="contact_phone" required>
+
+                <label for="contact_email">Contact Email:</label>
+                <input type="email" id="contact_email" name="contact_email" required>
+
+                <label for="participants">Number of Participants:</label>
+                <input type="number" id="participants" name="participants" required min="1">
+
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" readonly>
+
+                <label for="trip-duration">Trip Duration:</label>
+                <input type="text" id="trip-duration" name="trip_duration" readonly>
+
+                <label for="hotel-choice">Choose Hotel:</label>
+                <select id="hotel-choice" name="hotel_choice">
+                    <option value="hotel type A">Hotel type A</option>
+                    <option value="hotel Hotel type B">Hotel type B</option>
+                    <option value="hotel Hotel type C">Hotel type C</option>
+                </select>
+
+                <label for="payment-method">Payment Method:</label>
+                <select id="payment-method" name="payment_method">
+                    <option value="credit-card">Credit Card</option>
+                    <option value="Bkash">Bkash</option>
+                    <option value="bank-transfer">Bank Transfer</option>
+                </select>
+
+                <button type="submit">Book Now</button>
+            </form>
+
+            
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-content">
+            <span class="close" id="close-confirm-modal">&times;</span>
+            <h3>Booking Successful!</h3>
+            <p id="confirmation-details"></p>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    // Get all necessary elements
+    const cards = document.querySelectorAll('.card');
+    const bookingModal = document.getElementById('booking-modal');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const closeModal = document.getElementById('close-modal');
+    const closeConfirmModal = document.getElementById('close-confirm-modal');
+    const scrollButton = document.getElementById('scroll-button');
+    const bookingForm = document.querySelector('.booking-form');
+    const confirmationDetails = document.getElementById('confirmation-details');
+
+    // Verify all elements are found
+    console.log('Confirmation Modal Element:', confirmationModal);
+    console.log('Confirmation Details Element:', confirmationDetails);
+
+    // Handle card clicks
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const destination = card.querySelector('.Dest').textContent.trim();
+            const priceElement = card.querySelector('.price');
+            const durationMatch = priceElement.textContent.match(/\d+\s*days/);
+            const duration = durationMatch ? durationMatch[0] : '';
+
+            document.getElementById('destination').value = destination;
+            document.getElementById('trip-duration').value = duration;
+            bookingModal.style.display = 'flex';
+        });
+    });
+
+    // Single form submission handler
+    bookingForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        try {
+            // Create FormData
+            const formData = new FormData(event.target);
+
+            // Send to server
+            const response = await fetch('book_trip.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.status === 'success') {
+                // Create confirmation message
+                const confirmationMessage = `
+                    Booking Details:
+                    ----------------
+                    Full Name: ${formData.get('full_name')}
+                    Contact Phone: ${formData.get('contact_phone')}
+                    Contact Email: ${formData.get('contact_email')}
+                    Destination: ${formData.get('destination')}
+                    Duration: ${formData.get('trip_duration')}
+                    Number of Participants: ${formData.get('participants')}
+                    Hotel Type: ${formData.get('hotel_choice')}
+                    Payment Method: ${formData.get('payment_method')}
+                `;
+
+                // Hide booking modal
+                bookingModal.style.display = 'none';
+
+                // Update confirmation details and show modal
+                if (confirmationDetails && confirmationModal) {
+                    confirmationDetails.innerHTML = confirmationMessage.replace(/\n/g, '<br>');
+                    confirmationModal.style.display = 'flex';
+                    
+                    // Log for debugging
+                    console.log('Showing confirmation modal');
+                    console.log('Modal style:', confirmationModal.style.display);
+                } else {
+                    console.error('Confirmation modal elements not found!');
+                }
+
+                // Reset form
+                bookingForm.reset();
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            alert('Error submitting form. Please try again.');
+        }
+    });
+
+    // Modal close handlers
+    if (closeModal) {
+        closeModal.addEventListener('click', () => {
+            bookingModal.style.display = 'none';
+        });
+    }
+
+    if (closeConfirmModal) {
+        closeConfirmModal.addEventListener('click', () => {
+            confirmationModal.style.display = 'none';
+        });
+    }
+
+    // Scroll button handler
+    if (scrollButton) {
+        scrollButton.addEventListener('click', () => {
+            const formSection = document.querySelector('.booking-form');
+            formSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
+    // Outside click handlers
+    window.addEventListener('click', (event) => {
+        if (event.target === bookingModal) {
+            bookingModal.style.display = 'none';
+        }
+        if (event.target === confirmationModal) {
+            confirmationModal.style.display = 'none';
+        }
+    });
+});
+        
+    </script>
+</body>
+</html>

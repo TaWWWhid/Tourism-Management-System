@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AdventureVista</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+    
+    <style>
+        
+        body {
+    background: linear-gradient(135deg, #a8b5d4 0%, #f5f7ff 100%) fixed;  /* Added 'fixed' */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;  /* Ensure minimum height */
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+    nav {
+    background-color: #ffffff;
+    padding: 0.5rem 5%;  /* Reduced from 1rem to 0.5rem */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;     /* Changed from smooth to sticky */
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;  /* Added fixed height */
+}
+
+nav h4 {
+    color: #2563eb;
+    font-size: 1.3rem;  /* Reduced from 1.5rem */
+    margin: 0;  /* Remove default margins */
+}
+
+nav ul {
+    display: flex;
+    gap: 1.5rem;  /* Reduced from 2rem */
+    list-style: none;
+    align-items: center;
+    margin: 0;  /* Remove default margins */
+    padding: 0;  /* Remove default padding */
+}
+
+nav a {
+    text-decoration: none;
+    color: #1f2937;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.3rem 0.8rem;  /* Reduced from 0.5rem 1rem */
+    border-radius: 0.5rem;
+}
+        .about-us-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #9ba8c7 0%, #f5f7ff 100%);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .about-header h2 {
+            font-size: 2.5rem;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        .about-header p {
+            font-size: 1.1rem;
+            color: #4b5563;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: #2563eb;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        .team-section {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .team-member {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .mission-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .contact-section {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: #2563eb;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #1d4ed8;
+        }
+
+        @media (max-width: 768px) {
+            .about-header {
+                padding: 30px 20px;
+            }
+
+            .about-header h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h4>AdventureVista</h4>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="community.html">Destination</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="register.html">Register</a></li>
+        </ul>
+    </nav>
+    <section class="about-us-section">
+        <div class="about-header">
+            <h2>About AdventureVista</h2>
+            <p>Your trusted partner in creating unforgettable travel experiences since 2015. We combine expertise, innovation, and passion to make your dream adventures come true.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-route"></i>
+                <h4>Expert Planning</h4>
+                <p>Customized travel itineraries crafted by experienced professionals who understand your unique preferences.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-hotel"></i>
+                <h4>Premium Accommodations</h4>
+                <p>Carefully selected hotels and resorts that offer comfort, luxury, and authentic local experiences.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users"></i>
+                <h4>Local Guides</h4>
+                <p>Expert local guides who bring destinations to life with their knowledge and passion.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Safe Travel</h4>
+                <p>Your safety is our priority with comprehensive travel insurance and 24/7 support.</p>
+            </div>
+        </div>
+
+        <div class="mission-vision">
+            <div class="mission-card">
+                <i class="fas fa-bullseye"></i>
+                <h3>Our Mission</h3>
+                <p>To create extraordinary travel experiences that inspire, connect, and enrich lives through authentic adventures and cultural immersion.</p>
+            </div>
+            <div class="mission-card">
+                <i class="fas fa-eye"></i>
+                <h3>Our Vision</h3>
+                <p>To become the world's most trusted travel companion, making remarkable journeys accessible to everyone.</p>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <h3>Meet Our Team</h3>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="/api/placeholder/150/150" alt="Team Member">
+                    <h4>Tawhid Hasan</h4>
+                    <p>Founder & CEO</p>
+                    <p>15 years in travel industry</p>
+                </div>
+                <div class="team-member">
+                    <img src="/api/placeholder/150/150" alt="Team Member">
+                    <h4>Sadia Afrose Mithi</h4>
+                    <p>Co-Founder Travel Experience Director</p>
+                    <p>12 years expertise</p>
+                </div>
+                <div class="team-member">
+                    <img src="/api/placeholder/150/150" alt="Team Member">
+                    <h4>Anny</h4>
+                    <p>Customer Relations Head</p>
+                    <p>8 years of excellence</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h3>Get in Touch</h3>
+            <p>Email: contact@adventurevista.com</p>
+            <p>Phone: +880 1234-567890</p>
+            <p>Address: House 123, Road 5, Dhanmondi, Dhaka, Bangladesh</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - Tourism Management System</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .login-container form input,
+        .login-container form button {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-container form button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .login-container form button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Log In</h2>
+
+    <form action="login_user.php" method="POST">
+        <label for="login_email">Email:</label>
+        <input type="email" id="login_email" name="login_email" required>
+
+        <label for="login_password">Password:</label>
+        <input type="password" id="login_password" name="login_password" required>
+
+        <button type="submit">Log In</button>
+    </form>
+
+    <p>Don't have an account? <a href="register.html">Sign Up</a></p>
+</div>
+
+</body>
+</html>
