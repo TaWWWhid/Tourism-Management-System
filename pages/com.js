@@ -1,38 +1,39 @@
+// pages/com.js
 document.addEventListener('DOMContentLoaded', () => {
   // Elements
+  const cards = document.querySelectorAll('.card');
   const bookingModal = document.getElementById('booking-modal');
   const confirmationModal = document.getElementById('confirmation-modal');
   const closeModal = document.getElementById('close-modal');
   const closeConfirmModal = document.getElementById('close-confirm-modal');
   const bookingForm = document.querySelector('.booking-form');
   const confirmationDetails = document.getElementById('confirmation-details');
-  const scrollButton = document.getElementById('scroll-button'); // optional
 
-  // Helper used by app.js after auth passes
-  window.openBookingFromCard = (card) => {
-    const destination = card.querySelector('.Dest')?.textContent.trim() || '';
-    const priceElement = card.querySelector('.price');
-    const durationMatch = (priceElement?.textContent || '').match(/\d+\s*days/);
-    const duration = durationMatch ? durationMatch[0] : '';
+  // Click a card → open booking modal (no login required)
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const destination = card.querySelector('.Dest')?.textContent.trim() || '';
+      const priceEl = card.querySelector('.price');
+      const m = (priceEl?.textContent || '').match(/\d+\s*days/);
+      const duration = m ? m[0] : '';
 
-    const destInput = document.getElementById('destination');
-    const durInput = document.getElementById('trip-duration');
+      const destInput = document.getElementById('destination');
+      const durInput  = document.getElementById('trip-duration');
+      if (destInput) destInput.value = destination;
+      if (durInput)  durInput.value  = duration;
 
-    if (destInput) destInput.value = destination;
-    if (durInput) durInput.value = duration;
+      if (bookingModal) bookingModal.style.display = 'flex';
+    });
+  });
 
-    if (bookingModal) bookingModal.style.display = 'flex';
-  };
-
-  // Submit booking form
+  // Booking form submit → POST to PHP, then show confirmation
   if (bookingForm) {
     bookingForm.addEventListener('submit', async (event) => {
       event.preventDefault();
 
       try {
         const formData = new FormData(event.target);
-
-        const response = await fetch('book_trip.php', {
+        const response = await fetch('/pages/book_trip.php', {
           method: 'POST',
           body: formData
         });
@@ -61,10 +62,7 @@ Payment Method: ${formData.get('payment_method')}
           `;
 
           if (bookingModal) bookingModal.style.display = 'none';
-
-          if (confirmationDetails) {
-            confirmationDetails.innerHTML = msg.replace(/\n/g, '<br>');
-          }
+          if (confirmationDetails) confirmationDetails.innerHTML = msg.replace(/\n/g, '<br>');
           if (confirmationModal) confirmationModal.style.display = 'flex';
 
           bookingForm.reset();
@@ -79,24 +77,12 @@ Payment Method: ${formData.get('payment_method')}
   }
 
   // Close buttons
-  if (closeModal) {
-    closeModal.addEventListener('click', () => { if (bookingModal) bookingModal.style.display = 'none'; });
-  }
-  if (closeConfirmModal) {
-    closeConfirmModal.addEventListener('click', () => { if (confirmationModal) confirmationModal.style.display = 'none'; });
-  }
+  if (closeModal)        closeModal.addEventListener('click', () => { if (bookingModal) bookingModal.style.display = 'none'; });
+  if (closeConfirmModal) closeConfirmModal.addEventListener('click', () => { if (confirmationModal) confirmationModal.style.display = 'none'; });
 
-  // Optional scroll button
-  if (scrollButton) {
-    scrollButton.addEventListener('click', () => {
-      const formSection = document.querySelector('.booking-form');
-      if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
-
-  // Click outside to close
+  // Close on outside click
   window.addEventListener('click', (e) => {
-    if (e.target === bookingModal) bookingModal.style.display = 'none';
+    if (e.target === bookingModal)      bookingModal.style.display = 'none';
     if (e.target === confirmationModal) confirmationModal.style.display = 'none';
   });
 });
