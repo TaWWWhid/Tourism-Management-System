@@ -1,0 +1,10 @@
+# /.htaccess
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # let real files and dirs pass through (images, icons, pages)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  # otherwise fall back to index.html
+  RewriteRule ^ index.html [L]
+</IfModule>

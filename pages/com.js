@@ -1,117 +1,102 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Get all necessary elements
-    const cards = document.querySelectorAll('.card');
-    const bookingModal = document.getElementById('booking-modal');
-    const confirmationModal = document.getElementById('confirmation-modal');
-    const closeModal = document.getElementById('close-modal');
-    const closeConfirmModal = document.getElementById('close-confirm-modal');
-    const scrollButton = document.getElementById('scroll-button');
-    const bookingForm = document.querySelector('.booking-form');
-    const confirmationDetails = document.getElementById('confirmation-details');
+  // Elements
+  const bookingModal = document.getElementById('booking-modal');
+  const confirmationModal = document.getElementById('confirmation-modal');
+  const closeModal = document.getElementById('close-modal');
+  const closeConfirmModal = document.getElementById('close-confirm-modal');
+  const bookingForm = document.querySelector('.booking-form');
+  const confirmationDetails = document.getElementById('confirmation-details');
+  const scrollButton = document.getElementById('scroll-button'); // optional
 
-    // Verify all elements are found
-    console.log('Confirmation Modal Element:', confirmationModal);
-    console.log('Confirmation Details Element:', confirmationDetails);
+  // Helper used by app.js after auth passes
+  window.openBookingFromCard = (card) => {
+    const destination = card.querySelector('.Dest')?.textContent.trim() || '';
+    const priceElement = card.querySelector('.price');
+    const durationMatch = (priceElement?.textContent || '').match(/\d+\s*days/);
+    const duration = durationMatch ? durationMatch[0] : '';
 
-    // Handle card clicks
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const destination = card.querySelector('.Dest').textContent.trim();
-            const priceElement = card.querySelector('.price');
-            const durationMatch = priceElement.textContent.match(/\d+\s*days/);
-            const duration = durationMatch ? durationMatch[0] : '';
+    const destInput = document.getElementById('destination');
+    const durInput = document.getElementById('trip-duration');
 
-            document.getElementById('destination').value = destination;
-            document.getElementById('trip-duration').value = duration;
-            bookingModal.style.display = 'flex';
-        });
-    });
+    if (destInput) destInput.value = destination;
+    if (durInput) durInput.value = duration;
 
-    // Single form submission handler
+    if (bookingModal) bookingModal.style.display = 'flex';
+  };
+
+  // Submit booking form
+  if (bookingForm) {
     bookingForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+      event.preventDefault();
 
-        try {
-            // Create FormData
-            const formData = new FormData(event.target);
+      try {
+        const formData = new FormData(event.target);
 
-            // Send to server
-            const response = await fetch('book_trip.php', {
-                method: 'POST',
-                body: formData
-            });
+        const response = await fetch('book_trip.php', {
+          method: 'POST',
+          body: formData
+        });
 
-            const result = await response.json();
-
-            if (result.status === 'success') {
-                // Create confirmation message
-                const confirmationMessage = `
-                    Booking Details:
-                    ----------------
-                    Full Name: ${formData.get('full_name')}
-                    Contact Phone: ${formData.get('contact_phone')}
-                    Contact Email: ${formData.get('contact_email')}
-                    Destination: ${formData.get('destination')}
-                    Duration: ${formData.get('trip_duration')}
-                    Number of Participants: ${formData.get('participants')}
-                    Hotel Type: ${formData.get('hotel_choice')}
-                    Payment Method: ${formData.get('payment_method')}
-                `;
-
-                // Hide booking modal
-                bookingModal.style.display = 'none';
-
-                // Update confirmation details and show modal
-                if (confirmationDetails && confirmationModal) {
-                    confirmationDetails.innerHTML = confirmationMessage.replace(/\n/g, '<br>');
-                    confirmationModal.style.display = 'flex';
-                    
-                    // Log for debugging
-                    console.log('Showing confirmation modal');
-                    console.log('Modal style:', confirmationModal.style.display);
-                } else {
-                    console.error('Confirmation modal elements not found!');
-                }
-
-                // Reset form
-                bookingForm.reset();
-            } else {
-                alert(result.message);
-            }
-        } catch (error) {
-            console.error('Submission error:', error);
-            alert('Error submitting form. Please try again.');
+        const ct = response.headers.get('content-type') || '';
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!ct.includes('application/json')) {
+          const text = await response.text();
+          throw new Error('Expected JSON, got: ' + text.slice(0, 200));
         }
+
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          const msg = `
+Booking Details:
+----------------
+Full Name: ${formData.get('full_name')}
+Contact Phone: ${formData.get('contact_phone')}
+Contact Email: ${formData.get('contact_email')}
+Destination: ${formData.get('destination')}
+Duration: ${formData.get('trip_duration')}
+Number of Participants: ${formData.get('participants')}
+Hotel Type: ${formData.get('hotel_choice')}
+Payment Method: ${formData.get('payment_method')}
+          `;
+
+          if (bookingModal) bookingModal.style.display = 'none';
+
+          if (confirmationDetails) {
+            confirmationDetails.innerHTML = msg.replace(/\n/g, '<br>');
+          }
+          if (confirmationModal) confirmationModal.style.display = 'flex';
+
+          bookingForm.reset();
+        } else {
+          alert(result.message || 'Booking failed');
+        }
+      } catch (err) {
+        console.error('Submission error:', err);
+        alert('Error submitting form. Please try again.');
+      }
     });
+  }
 
-    // Modal close handlers
-    if (closeModal) {
-        closeModal.addEventListener('click', () => {
-            bookingModal.style.display = 'none';
-        });
-    }
+  // Close buttons
+  if (closeModal) {
+    closeModal.addEventListener('click', () => { if (bookingModal) bookingModal.style.display = 'none'; });
+  }
+  if (closeConfirmModal) {
+    closeConfirmModal.addEventListener('click', () => { if (confirmationModal) confirmationModal.style.display = 'none'; });
+  }
 
-    if (closeConfirmModal) {
-        closeConfirmModal.addEventListener('click', () => {
-            confirmationModal.style.display = 'none';
-        });
-    }
-
-    // Scroll button handler
-    if (scrollButton) {
-        scrollButton.addEventListener('click', () => {
-            const formSection = document.querySelector('.booking-form');
-            formSection.scrollIntoView({ behavior: 'smooth' });
-        });
-    }
-
-    // Outside click handlers
-    window.addEventListener('click', (event) => {
-        if (event.target === bookingModal) {
-            bookingModal.style.display = 'none';
-        }
-        if (event.target === confirmationModal) {
-            confirmationModal.style.display = 'none';
-        }
+  // Optional scroll button
+  if (scrollButton) {
+    scrollButton.addEventListener('click', () => {
+      const formSection = document.querySelector('.booking-form');
+      if (formSection) formSection.scrollIntoView({ behavior: 'smooth' });
     });
+  }
+
+  // Click outside to close
+  window.addEventListener('click', (e) => {
+    if (e.target === bookingModal) bookingModal.style.display = 'none';
+    if (e.target === confirmationModal) confirmationModal.style.display = 'none';
+  });
 });
